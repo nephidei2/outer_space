@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Adding new event to calendar</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+   <link rel="stylesheet" href="/resources/demos/style.css">
+   <script type="text/javascript">
+        $(function() {
+            $("#datepicker").datepicker({ dateFormat: 'yymmdd' });
+            $("#from").datepicker({ dateFormat:'yymmdd' });
+            $("#to").datepicker({ dateFormat:'yymmdd' });
+         });
+         function buttonFunction() {
+
+            var from = $('#from').val(),
+                to = $('#to').val();
+
+                $.get('/calendar_json/piece_of_table',{
+                    'from': from,
+                    'to': to}, function(ans) {
+                    $('#content').append(ans);
+                });
+        }
+        function buttonDownload() {
+            window.location = '/calendar_json/calendar.json';
+        }
+
+
+   </script>
+
+
+   <form enctype="multipart/form-data" method="post" action="upload">
+    <input type="file" multiple="multiple" name="data" /><input type="submit" value="send" />
+   </form>
+    <div style="width:100%;height:100%;position:relative;text-align:center;">
+     <button onclick="buttonDownload()" id='download' style="background-color:yellow;margin-left:200px;margin-right:auto;margin-top:2%;display:block;">Download current version of json</button>
+    </div>
+
+    <form method="post" action="/results">
+      <style>
+           form {
+               padding-top: 100px;
+               padding-left: 200px;
+               font-family : inherit;
+               font-size   : 100%;
+           }
+      </style>
+    </head>
+    <body>
+     <h2>
+      <span><font size="5">Please describe new event for our Calendar, Master!</font></span>
+     </h2>
+     <p><select name="country">
+      <option value="ru">Russia</option>
+      <option value="tr">Turkey</option>
+      <option value="ua">Ukrain</option>
+      <option value="by">Belarus</option>
+      <option value="kz">Kazakhstan</option>
+      <option value="tot">All countries</option>
+     </select></p>
+     <p><select name="event_type">
+      <option value="w">Weekend</option>
+      <option value="h">Holiday</option>
+      <option value="s">Some other seasonal event</option>
+     </select></p>
+     <h3>
+      <span><font size="3">Submit new event or delete existing?!</font></span>
+     </h3>
+
+     <p><select name="action">
+      <option value="submit">Submit!</option>
+      <option value="del">Delete!</option>
+     </select></p>
+
+
+
+
+      <h2>
+      <span><font size="3">Adding new event</font></span>
+     </h2>
+
+
+     <Br> Select event date: <input id="datepicker" name="date">
+
+
+     <Br> Type the name for event: <input type="text" name="event_name">
+     <p><input type="submit" style="background-color:yellow;position:relative; top:12px; left: 0%;"></p>
+     <p><input type="reset" style="background-color:yellow;position:relative; top:12px; left:0%;"></p>
+
+
+
+    <h2 style="position:relative;top: 20px;">
+      <span><font size="3">Availiable events</font></span>
+     </h2>
+
+     <Br> From: <input id="from" name="from">
+     <Br> To: <input id="to" name="to">
+
+
+
+    </form>
+
+   <div style="width:100%;height:100%;position:relative;text-align:center;">
+    <button onclick="buttonFunction()" id='knopka' style="background-color:yellow;margin-left:200px;margin-right:auto;margin-top:2%;display:block;">Show events for selected range</button>
+   </div>
+
+
+   <div id="content">
+   <div>
+    </body>
+   </html>
